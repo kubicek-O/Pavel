@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Animovaná fotka</komrska>
+  <title>Animovaná fotka</title>
 
   <style>
     body {
@@ -14,43 +14,48 @@
       align-items: center;
       background-color: #111;
       overflow: hidden;
+      font-family: Arial, sans-serif;
     }
 
     img {
       width: 300px;
+      height: 300px;
+      object-fit: cover;
       border-radius: 20px;
-      box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
-      transition: transform 0.05s linear;
+      box-shadow: 0 0 40px rgba(255, 255, 255, 0.3);
+      transition: transform 0.1s linear;
     }
   </style>
 </head>
 <body>
 
-  <img id="foto" src="komrska.jpg" alt="Fotka">
+  <img id="fotka" src="komrska.jpg" alt="Fotka">
 
   <script>
-    const foto = document.getElementById("foto");
+    const fotka = document.getElementById("fotka");
 
     let scale = 1;
-    let direction = 1;
+    let growing = true;
 
-    function animatePhoto() {
-      scale += direction * 0.0015;
-
-      if (scale >= 1.15) {
-        direction = -1;
+    function animateImage() {
+      if (growing) {
+        scale += 0.0015;
+        if (scale >= 1.15) {
+          growing = false;
+        }
+      } else {
+        scale -= 0.0015;
+        if (scale <= 1) {
+          growing = true;
+        }
       }
 
-      if (scale <= 1) {
-        direction = 1;
-      }
+      fotka.style.transform = `scale(${scale})`;
 
-      foto.style.transform = `scale(${scale})`;
-
-      requestAnimationFrame(animatePhoto);
+      requestAnimationFrame(animateImage);
     }
 
-    animatePhoto();
+    animateImage();
   </script>
 
 </body>
