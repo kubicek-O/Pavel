@@ -2,60 +2,75 @@
 <html lang="cs">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Animovaná fotka</title>
+  <title>Popcat webovka</title>
 
   <style>
     body {
       margin: 0;
       height: 100vh;
+      background: #111;
+      color: white;
+      font-family: Arial, sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
-      background-color: #111;
-      overflow: hidden;
-      font-family: Arial, sans-serif;
+      text-align: center;
+      user-select: none;
     }
 
     img {
       width: 300px;
-      height: 300px;
-      object-fit: cover;
+      cursor: pointer;
+      transition: 0.08s;
       border-radius: 20px;
-      box-shadow: 0 0 40px rgba(255, 255, 255, 0.3);
-      transition: transform 0.1s linear;
+    }
+
+    .pop {
+      transform: scale(1.15);
+    }
+
+    h1 {
+      font-size: 60px;
+      margin: 0 0 30px 0;
     }
   </style>
 </head>
 <body>
 
-  <img id="fotka" src="komrska.jpg" alt="Fotka">
+  <div>
+    <h1 id="counter">0</h1>
+    <img id="photo" src="komrska.jpg" alt="Pop fotka">
+  </div>
 
   <script>
-    const fotka = document.getElementById("fotka");
+    let count = 0;
 
-    let scale = 1;
-    let growing = true;
+    const photo = document.getElementById("photo");
+    const counter = document.getElementById("counter");
 
-    function animateImage() {
-      if (growing) {
-        scale += 0.0015;
-        if (scale >= 1.15) {
-          growing = false;
-        }
-      } else {
-        scale -= 0.0015;
-        if (scale <= 1) {
-          growing = true;
-        }
-      }
+    photo.addEventListener("mousedown", function() {
+      count++;
+      counter.textContent = count;
+      photo.classList.add("pop");
+    });
 
-      fotka.style.transform = `scale(${scale})`;
+    photo.addEventListener("mouseup", function() {
+      photo.classList.remove("pop");
+    });
 
-      requestAnimationFrame(animateImage);
-    }
+    photo.addEventListener("mouseleave", function() {
+      photo.classList.remove("pop");
+    });
 
-    animateImage();
+    photo.addEventListener("touchstart", function() {
+      count++;
+      counter.textContent = count;
+      photo.classList.add("pop");
+    });
+
+    photo.addEventListener("touchend", function() {
+      photo.classList.remove("pop");
+    });
   </script>
 
 </body>
