@@ -2,12 +2,18 @@
 <html lang="cs">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Popcat webovka</title>
 
   <style>
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
     body {
       margin: 0;
-      height: 100vh;
+      min-height: 100vh;
       background: #111;
       color: white;
       font-family: Arial, sans-serif;
@@ -16,28 +22,41 @@
       align-items: center;
       text-align: center;
       user-select: none;
+      overflow: hidden;
     }
 
-    img {
-      width: 300px;
-      cursor: pointer;
-      transition: 0.08s;
-      border-radius: 20px;
-    }
-
-    .pop {
-      transform: scale(1.15);
+    .container {
+      width: 100%;
+      padding: 20px;
     }
 
     h1 {
-      font-size: 60px;
+      font-size: clamp(50px, 15vw, 100px);
       margin: 0 0 30px 0;
+    }
+
+    img {
+      width: min(80vw, 420px);
+      max-height: 65vh;
+      object-fit: cover;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: transform 0.08s, box-shadow 0.08s, filter 0.08s;
+      touch-action: manipulation;
+      box-shadow: 0 0 25px rgba(255, 255, 255, 0.2);
+    }
+
+    .pop {
+      transform: scale(1.12);
+      box-shadow: 0 0 45px rgba(255, 0, 0, 0.9);
+      filter: brightness(1.15) saturate(1.4);
+      border: 4px solid red;
     }
   </style>
 </head>
 <body>
 
-  <div>
+  <div class="container">
     <h1 id="counter">0</h1>
     <img id="photo" src="komrska.jpg" alt="Pop fotka">
   </div>
@@ -48,29 +67,26 @@
     const photo = document.getElementById("photo");
     const counter = document.getElementById("counter");
 
-    photo.addEventListener("mousedown", function() {
+    function popStart(event) {
+      event.preventDefault();
+
       count++;
       counter.textContent = count;
+
       photo.classList.add("pop");
-    });
+    }
 
-    photo.addEventListener("mouseup", function() {
+    function popEnd() {
       photo.classList.remove("pop");
-    });
+    }
 
-    photo.addEventListener("mouseleave", function() {
-      photo.classList.remove("pop");
-    });
+    photo.addEventListener("mousedown", popStart);
+    photo.addEventListener("mouseup", popEnd);
+    photo.addEventListener("mouseleave", popEnd);
 
-    photo.addEventListener("touchstart", function() {
-      count++;
-      counter.textContent = count;
-      photo.classList.add("pop");
-    });
-
-    photo.addEventListener("touchend", function() {
-      photo.classList.remove("pop");
-    });
+    photo.addEventListener("touchstart", popStart, { passive: false });
+    photo.addEventListener("touchend", popEnd);
+    photo.addEventListener("touchcancel", popEnd);
   </script>
 
 </body>
