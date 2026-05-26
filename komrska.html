@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Animovaná fotka</title>
+
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #111;
+      overflow: hidden;
+    }
+
+    img {
+      width: 300px;
+      border-radius: 20px;
+      box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+      transition: transform 0.05s linear;
+    }
+  </style>
+</head>
+<body>
+
+  <img id="foto" src="komrska.jpg" alt="Fotka">
+
+  <script>
+    const foto = document.getElementById("foto");
+
+    let scale = 1;
+    let direction = 1;
+
+    function animatePhoto() {
+      scale += direction * 0.0015;
+
+      if (scale >= 1.15) {
+        direction = -1;
+      }
+
+      if (scale <= 1) {
+        direction = 1;
+      }
+
+      foto.style.transform = `scale(${scale})`;
+
+      requestAnimationFrame(animatePhoto);
+    }
+
+    animatePhoto();
+  </script>
+
+</body>
+</html>
