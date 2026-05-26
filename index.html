@@ -37,7 +37,7 @@
 
     h2 {
       margin: 10px 0 25px;
-      font-size: 28px;
+      font-size: clamp(22px, 6vw, 34px);
       color: #ff4444;
     }
 
@@ -95,6 +95,11 @@
     let count = 0;
     let level = 1;
 
+    const level1Image = "komrska.jpg";
+
+    const level2ClosedImage = "IMG_0912.PNG";
+    const level2OpenImage = "evoluce2-pop.png";
+
     const photo = document.getElementById("photo");
     const counter = document.getElementById("counter");
     const stage = document.getElementById("stage");
@@ -109,18 +114,33 @@
 
       if (count >= 50 && level === 1) {
         level = 2;
-        photo.src = "IMG_0912.PNG";
         stage.textContent = "2. stupeň evoluce";
+        photo.src = level2ClosedImage;
+
         photo.classList.add("evolution");
 
         setTimeout(function() {
           photo.classList.remove("evolution");
         }, 800);
+
+        return;
+      }
+
+      if (level === 2) {
+        photo.src = level2OpenImage;
       }
     }
 
     function popEnd() {
       photo.classList.remove("pop");
+
+      if (level === 1) {
+        photo.src = level1Image;
+      }
+
+      if (level === 2) {
+        photo.src = level2ClosedImage;
+      }
     }
 
     photo.addEventListener("mousedown", popStart);
