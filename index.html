@@ -2,13 +2,61 @@
 <html lang="cs">
 <head>
   <meta charset="UTF-8">
-  <title>Fotka</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Animovaná fotka</title>
+
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #111;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+    }
+
+    img {
+      width: 300px;
+      height: 300px;
+      object-fit: cover;
+      border-radius: 20px;
+      box-shadow: 0 0 40px rgba(255, 255, 255, 0.3);
+      transition: transform 0.1s linear;
+    }
+  </style>
 </head>
 <body>
 
-  <div style="text-align: center;">
-    <img src="komrska.jpg" alt="Fotka" width="300">
-  </div>
+  <img id="fotka" src="komrska.jpg" alt="Fotka">
+
+  <script>
+    const fotka = document.getElementById("fotka");
+
+    let scale = 1;
+    let growing = true;
+
+    function animateImage() {
+      if (growing) {
+        scale += 0.0015;
+        if (scale >= 1.15) {
+          growing = false;
+        }
+      } else {
+        scale -= 0.0015;
+        if (scale <= 1) {
+          growing = true;
+        }
+      }
+
+      fotka.style.transform = `scale(${scale})`;
+
+      requestAnimationFrame(animateImage);
+    }
+
+    animateImage();
+  </script>
 
 </body>
 </html>
