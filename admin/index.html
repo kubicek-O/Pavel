@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Popcat evoluce</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #111;
+      color: white;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      user-select: none;
+      overflow: hidden;
+    }
+
+    .container {
+      width: 100%;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: clamp(50px, 15vw, 100px);
+      margin: 0;
+    }
+
+    h2 {
+      margin: 10px 0 25px;
+      font-size: clamp(22px, 6vw, 34px);
+      color: #ff4444;
+    }
+
+    img {
+      width: min(85vw, 430px);
+      max-height: 65vh;
+      object-fit: cover;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: transform 0.08s, box-shadow 0.08s, filter 0.08s;
+      touch-action: manipulation;
+      box-shadow: 0 0 25px rgba(255, 255, 255, 0.2);
+    }
+
+    .pop {
+      transform: scale(1.12);
+      box-shadow: 0 0 50px rgba(255, 0, 0, 0.95);
+      filter: brightness(1.2) saturate(1.5);
+      border: 4px solid red;
+    }
+
+    .evolution {
+      animation: evolve 0.8s ease;
+    }
+
+    @keyframes evolve {
+      0% {
+        transform: scale(1);
+        filter: brightness(1);
+      }
+
+      50% {
+        transform: scale(1.3);
+        filter: brightness(2) saturate(2);
+        box-shadow: 0 0 80px red;
+      }
+
+      100% {
+        transform: scale(1);
+        filter: brightness(1);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1 id="counter">0</h1>
+    <h2 id="stage">1. stupeň</h2>
+
+    <img id="photo" src="komrska.jpg" alt="Pop evoluce">
+  </div>
+
+  <script>
+    let count = 0;
+    let level = 1;
+
+    const level1Image = "komrska.jpg";
+
+    const level2ClosedImage = "IMG_0912.PNG";
+    const level2OpenImage = "evoluce2-pop.png";
+
+    const photo = document.getElementById("photo");
+    const counter = document.getElementById("counter");
+    const stage = document.getElementById("stage");
+
+    function popStart(event) {
+      event.preventDefault();
+
+      count++;
+      counter.textContent = count;
+
+      photo.classList.add("pop");
+
+      if (count >= 50 && level === 1) {
+        level = 2;
+        stage.textContent = "2. stupeň evoluce";
+        photo.src = level2ClosedImage;
+
+        photo.classList.add("evolution");
+
+        setTimeout(function() {
+          photo.classList.remove("evolution");
+        }, 800);
+
+        return;
+      }
+
+      if (level === 2) {
+        photo.src = level2OpenImage;
+      }
+    }
+
+    function popEnd() {
+      photo.classList.remove("pop");
+
+      if (level === 1) {
+        photo.src = level1Image;
+      }
+
+      if (level === 2) {
+        photo.src = level2ClosedImage;
+      }
+    }
+
+    photo.addEventListener("mousedown", popStart);
+    photo.addEventListener("mouseup", popEnd);
+    photo.addEventListener("mouseleave", popEnd);
+
+    photo.addEventListener("touchstart", popStart, { passive: false });
+    photo.addEventListener("touchend", popEnd);
+    photo.addEventListener("touchcancel", popEnd);
+  </script>
+
+</body>
+</html>
