@@ -95,7 +95,8 @@
     let count = 0;
     let level = 1;
 
-    const level1Image = "komrska.jpg";
+    const level1ClosedImage = "komrska.jpg";
+    const level1OpenImage = "level1-pop.png";
 
     const level2ClosedImage = "IMG_0912.PNG";
     const level2OpenImage = "evoluce2-pop.png";
@@ -126,6 +127,10 @@
         return;
       }
 
+      if (level === 1) {
+        photo.src = level1OpenImage;
+      }
+
       if (level === 2) {
         photo.src = level2OpenImage;
       }
@@ -135,7 +140,7 @@
       photo.classList.remove("pop");
 
       if (level === 1) {
-        photo.src = level1Image;
+        photo.src = level1ClosedImage;
       }
 
       if (level === 2) {
